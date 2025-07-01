@@ -1,0 +1,132 @@
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #8B5A3C ;
+    color: #fff;
+}
+.navbar {
+    background-color: #3B1E0A;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar img {
+    height: 40px;
+    margin-right: 50px;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.search-bar input {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+.profile-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.navbar a:hover{
+    color: lightgray;
+}
+.section {
+    height: 200px; 
+    background-color: #4d2600;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%; 
+    margin: 0 auto;
+    margin-top: 100px;
+}
+.profile img.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 50px;
+}
+.profile-info {
+    flex-grow: 1;
+    text-align: left;
+}
+.profile-info h2, .profile-info p {
+    margin: 0;
+}
+.content{
+    padding: 20px;
+}
+.content2 p{
+    margin-left: 30px;
+}
+.content2 label{
+    margin-left: 30px;
+}
+.content2{
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    margin: 30px auto;
+    border-radius: 20px;
+    width: 80%;
+}
+.footer {
+    background-color: #3B1E0A;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+    color: white;
+}
+.footer p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+.footer .footer-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.footer .footer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-icon {
+    width: 20px; 
+    height: 20px;
+    object-fit: cover;
+}
+.footer i {
+    margin-right: 5px;
+}
+.footer .footer-line i {
+    font-size: 18px; 
+}

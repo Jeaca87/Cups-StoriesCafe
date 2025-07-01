@@ -1,0 +1,183 @@
+body {
+    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #5C2E1F;
+    color: white;
+}
+.navbar {
+    background-color: #3B1E0A;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar img {
+    height: 40px;
+    margin-right: 50px;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.search-bar input {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+.profile-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.navbar a:hover{
+    color: lightgray;
+}
+.section {
+    height: 300px; 
+    background-image: url('homepage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center; 
+    padding-left: 50px; 
+    color: white;
+}
+.section h1 {
+    font-size: 70px;
+    margin-left: 50px;
+    margin-top: 150px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.offer {
+    background-color: #8B5A3C;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.offer-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+    max-width: 800px; 
+}
+.offer-container img {
+    width: 300px; 
+    height: 300px;
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 5px solid #FFFFFF; 
+}
+.offer-details {
+    color: white;
+    text-align: left; 
+}
+.offer-details h2 {
+    font-size: 28px;
+    margin: 0;
+}
+.offer-details p {
+    font-size: 18px;
+    margin: 20px 0 0;
+}
+.reward {
+    background-color: #5C2E1F;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+.reward-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto; 
+}
+.reward-container img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+.reward-details {
+    text-align: left;
+    max-width: 600px;
+}
+.reward-details h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    margin-left: 150px;
+}
+.reward-details p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.reward-items {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+}
+.reward-item {
+    background-color: #8B5A3C;
+    padding: 15px;
+    border-radius: 10px;
+}
+.reward-item h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: white; 
+}
+.reward-item p {
+    font-size: 16px;
+    color: white;
+}
+.footer {
+    background-color: #3B1E0A;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+    color: white;
+}
+.footer p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+.footer .footer-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.footer .footer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-icon {
+    width: 20px; 
+    height: 20px;
+    object-fit: cover;
+}
+.footer i {
+    margin-right: 5px;
+}
+.footer .footer-line i {
+    font-size: 18px; 
+}

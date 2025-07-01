@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #5C2E1F;
+    color: white;
+}
+.navbar {
+    background-color: #3B1E0A;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar img {
+    height: 40px;
+    margin-right: 50px;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.search-bar input {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+.profile-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.navbar a:hover{
+    color: lightgray;
+}
+.section {
+    height: 300px; 
+    background-image: url('reward.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center; 
+    padding-left: 50px; 
+    color: white;
+}
+.section h1 {
+    font-size: 70px;
+    margin-left: 50px;
+    margin-top: 150px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.rewards-section {
+    background: #3a1f1b; 
+    padding: 20px; 
+    margin: 20px 0; 
+    border-radius: 10px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+.reward-item {
+    background: #f5e6d3; 
+    color: #3a1f1b; 
+    margin: 10px 0; 
+    padding: 10px;
+    border-radius: 10px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 50%;
+}
+.reward-item p {
+    margin-right: 10px;
+}
+.points {
+    background: #8b5e3c; 
+    color: #fff; 
+    padding: 5px 10px; 
+    border-radius: 5px;
+}
+.history-section {
+    background-color: #3a1f1b;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.history-item {
+    background-color: #f5e6d3;
+    color: #3a1f1b;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%; 
+    margin: 10px 0;
+}
+.history-item p {
+    margin: 0;
+    text-align: center;
+}
+.footer {
+    background-color: #3B1E0A;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+    color: white;
+}
+.footer p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+.footer .footer-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.footer .footer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-icon {
+    width: 20px; 
+    height: 20px;
+    object-fit: cover;
+}
+.footer i {
+    margin-right: 5px;
+}
+.footer .footer-line i {
+    font-size: 18px;
+}
