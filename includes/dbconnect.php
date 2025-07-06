@@ -2,7 +2,7 @@
     $dbServername = "localhost" ;
     $dbEmail = "root";
     $dbPassword = "";
-    $dbName = "cs";
+    $dbName = "cs_db";
 
 
     $conn = new mysqli($dbServername, $dbEmail, $dbPassword, $dbName);
