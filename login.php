@@ -1,48 +1,45 @@
 <?php
-include "dbconnect.php";
-session_start();
+include "includes/dbconnect.php";   //connect sa dbconnect
+session_start();   //dito mag start yung web
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if(isset($_POST['submit'])){   //pag pinindot yung submit,
+    $username = $_POST['email'];   //kukunin nya yung email at password
+    $password = $_POST['password'];
 
-    if (empty($_POST["email"])) {
-        die("Error: Email is required.");
+    //pupunta syang database para kunin ang email at password ng admin or staff 
+    $stmt = $pdo->prepare("SELECT * FROM acc_pos WHERE acc_email = ?");
+    $stmt->execute([$username]);   //stmt means statement
+    $employee = $stmt->fetch();
+
+    if($employee && password_verify($password, $employee['password'])){
+        $_SESSION['acc_id'] = $employee['id'];
+        $_SESSION['acc_email'] = $employee['email'];
+        $_SESSION['acc_role'] = $employee['role'];
+
+        if($employee['role'] === 'admin'){
+            header("Location: admin/account.php");
+        }else{
+            header("Location: staff/account.php");
+        }
+        exit;
     }
 
-    if (empty($_POST["password"])) {
-        die("Error: Password is required.");
+    //kung user naman, pupunta syang database ng customer para kunin ang email at password
+    $stmt = $pdo->prepare("SELECT * FROM customer WHERE acc_email = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if($user && password_verify($password, $user['password'])){
+        $_SESSION['cus_id'] = $user['id'];
+        $_SESSION['cus_email'] = $user['email'];
+
+        header("Location: staff/account.php");
+    
+        exit;
+    }else{
+        echo"Wrong email or password";
     }
-
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-
-    echo "Email: $email<br>";
-
-    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
-    if (!$stmt) {
-        die("SQL Error: " . $conn->error);
-    }
-
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-
-        echo "User Found: " . $user["email"] . "<br>";
-
-        $_SESSION["user_id"] = $user["id"];
-        $_SESSION["email"] = $user["email"];
-
-        echo "Redirecting to homepage...<br>";
-        header("Location: /customer/cus_homepage.php");
-        exit();
-    } else {
-        echo "Error: User not found.<br>";
-    }
-
-    $stmt->close();
-} 
+}
 ?>
 
 <!DOCTYPE html>

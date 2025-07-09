@@ -1,6 +1,5 @@
-
 <?php 
-    include "dbconnect.php";
+    include "include/dbconnect.php";
 
     if(isset($_POST['register'])){
         $firstname = $_POST['firstname'];

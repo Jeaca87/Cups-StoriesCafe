@@ -1,15 +1,17 @@
 <?php
-    $dbServername = "localhost" ;
-    $dbEmail = "root";
-    $dbPassword = "";
-    $dbName = "cs_db";
+    $host = 'localhost';
+    $dbname = 'csc_db';
+    $username = 'root';
+    $password = '';
 
 
-    $conn = new mysqli($dbServername, $dbEmail, $dbPassword, $dbName);
-    if ($conn->connect_error){
-        die ("Failed" .$conn->connect_error);
-    }
-    else{
-        echo "";
-    }
+    try {
+    // Create PDO instance
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    // Set PDO error mode to exception (useful for debugging)
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+    // Handle connection error
+        die("Connection failed: " . $e->getMessage());
+}
 ?>
