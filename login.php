@@ -2,13 +2,15 @@
 include "includes/dbconnect.php";   //connect sa dbconnect
 session_start();   //dito mag start yung web
 
+//di pa sya tapos, lalagayan pa ng "you are not register yet" kapag naglogin at di pa nakakapag register
+
 if(isset($_POST['submit'])){   //pag pinindot yung submit,
-    $username = $_POST['email'];   //kukunin nya yung email at password
+    $email = $_POST['email'];   //kukunin nya yung email at password
     $password = $_POST['password'];
 
     //pupunta syang database para kunin ang email at password ng admin or staff 
     $stmt = $pdo->prepare("SELECT * FROM acc_pos WHERE acc_email = ?");
-    $stmt->execute([$username]);   //stmt means statement
+    $stmt->execute([$email]);   //stmt means statement
     $employee = $stmt->fetch();
 
     if($employee && password_verify($password, $employee['password'])){
@@ -59,7 +61,7 @@ if(isset($_POST['submit'])){   //pag pinindot yung submit,
             <button type="submit">Login</button>
         </form>
         <div class="link">
-            <p>Don't have an account? <a href="/register.php">Register</a></p>
+            <p>Don't have an account? <a href="register.php">Register</a></p>
         </div>
     </div>    
 </body>
