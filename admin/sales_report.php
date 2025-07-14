@@ -20,12 +20,12 @@
     <div>
         <div>
             <h5>Sales Summary Report</h5>
-            <option>
-                <select>Today</select>
-                <select>Yesterday</select>
-                <select>This Week</select>
-                <select>This Month</select>
-            </option>
+            <select>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+            </select>
         </div>
 
         <div>

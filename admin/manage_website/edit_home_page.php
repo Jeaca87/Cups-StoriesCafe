@@ -26,7 +26,7 @@
 
             <div>
                 <h5>Cover Text</h5>
-                <input type="test" id="ctext">
+                <input type="text" id="ctext">
                 <button>save</button>
             </div>
 

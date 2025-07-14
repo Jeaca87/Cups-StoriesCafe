@@ -1,5 +1,5 @@
 <?php
-    include "dbconnect.php";
+    include "includes/dbconnect.php";
     $sql = "SELECT * FROM user";
     $result = $conn->query($sql);
 ?>

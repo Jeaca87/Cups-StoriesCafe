@@ -1,5 +1,5 @@
 <?php
-include "includes/dbconnect.php";   //connect sa dbconnect
+require "includes/dbconnect.php";   //connect sa dbconnect
 session_start();   //dito mag start yung web
 
 //di pa sya tapos, lalagayan pa ng "you are not register yet" kapag naglogin at di pa nakakapag register
@@ -26,7 +26,7 @@ if(isset($_POST['submit'])){   //pag pinindot yung submit,
         exit;
     }
 
-    //kung user naman, pupunta syang database ng customer para kunin ang email at password
+    //kung customer naman, pupunta syang database ng customer para kunin ang email at password
     $stmt = $pdo->prepare("SELECT * FROM customer WHERE acc_email = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
