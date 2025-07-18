@@ -21,13 +21,13 @@
         <div>
             <div>
                 <h5>Cover Photo</h5>
-                <button>image</button>
+                <input type="file" name="fileupload" id="fileupload">
+                <input type="submit" value="Upload Image" name="save">
             </div>
 
             <div>
                 <h5>Cover Text</h5>
-                <input type="text" id="ctext">
-                <button>save</button>
+                <textarea name="text" rows="5" cols="20"></textarea>
             </div>
 
             <div>
