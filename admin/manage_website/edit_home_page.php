@@ -12,7 +12,7 @@
             <h3>Admin</h3>
         </nav>
     </div>
-    <form method="POST" action="includes/upload.php">
+    <form method="POST" action="includes/upload.php" enctype="multipart/form-data">
         <div>
             <h4>Edit Home Page</h4>
         </div>
@@ -20,8 +20,9 @@
         <div>
             <div>
                 <h5>Cover Photo</h5>
-                <input type="file" name="fileupload" id="fileupload">
-                <input type="submit" value="Upload Image" name="save">
+                <input type="file" name="fileupload">
+                <button type="submit" name="submit">Upload</button>
+                <img src="" alt="Home Page Photo">
             </div>
 
             <div>
