@@ -8,11 +8,50 @@ require "includes/dbconnect.php";
 
 //pag na isset mo yung register, hihingi sya ng name, email, pass 
 
-$role = 'customer';
+if (isset($_POST['register'])) {
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $pword1 = $_POST['pword1'];
+    $pword2 = $_POST['pword2'];
 
-if (isset($_GET['type']) && ($_GET['type'] === 'staff')) {
-    $role = 'staff';
-}
+    //pupunta syang database para kunin ang email at password ng admin or staff 
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE users_id = ?");
+    $stmt->execute([$email]);   //stmt means statement
+    $role = $stmt->fetch();
+
+    if(isset($_GET()))
+
+    if ($role && password_verify($password, $role['password'])) {
+        $_SESSION['acc_id'] = $role['id'];
+        $_SESSION['acc_email'] = $role['email'];
+        $_SESSION['acc_role'] = $role['role'];
+
+        if ($employee['role'] === 'admin') {
+            header("Location: admin/account.php");
+        } else {
+            header("Location: staff/account.php");
+        }
+        exit;
+    }
+
+
+
+    //kung customer naman, pupunta syang database ng customer para kunin ang email at password
+    $stmt = $pdo->prepare("SELECT * FROM customer WHERE acc_email = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['cus_id'] = $user['id'];
+        $_SESSION['cus_email'] = $user['email'];
+
+        header("Location: staff/account.php");
+
+        exit;
+    } else {
+        echo "Wrong email or password";
+    }
 
 if (isset($_POST['register'])) {
     $fname = $_POST['fname'];
