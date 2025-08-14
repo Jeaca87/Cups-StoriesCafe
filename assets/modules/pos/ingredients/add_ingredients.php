@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Ingredients</title>
 </head>
+
 <body>
+    <div class="navbar">
+        <h2>Dashboard</h2>
+        <h2>Admin</h2>
+        <div class="image">
+        </div>
+    </div>
     <form>
         <h3>Add Ingredients</h3>
         <h4>Item Id:</h4>
@@ -27,4 +35,5 @@
         <button type="submit" id="isave" name="isave">Save</button>
     </form>
 </body>
+
 </html>

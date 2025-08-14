@@ -1,28 +1,30 @@
 <?php
-    include "dbconnect.php";
-    $sql = "SELECT * FROM user";
-    $result = $conn->query($sql);
+require 'includes/dbconnect.php';
+$sql = "SELECT * FROM user";
+$result = $conn->query($sql);
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/css/cus_account.css">
     <title>Cups & Stories Cafe-Account</title>
 </head>
+
 <body>
     <div class="navbar">
         <img src="/assets/img/c&sLogo.png" alt="Cups & Stories Logo" class="logo">
         <div class="nav-right">
-            <a href="/customer/cus_homepage.php">Home</a>
-            <a href="/customer/cus_menu.php">Menu</a>
-            <a href="/customer/cus_reward.php">Rewards</a>
+            <a href="../customer/cus_homepage.php">Home</a>
+            <a href="../customer/cus_menu.php">Menu</a>
+            <a href="../customer/cus_reward.php">Rewards</a>
             <div class="search-bar">
                 <input type="text" placeholder="Search...">
-                <a href="/customer/cus_account.php"><img src="/assets/img/profile.png" alt="Profile" class="profile-img"></a>
+                <a href="../customer/cus_account.php"><img src="/assets/img/profile.png" alt="Profile" class="profile-img"></a>
             </div>
         </div>
     </div>
@@ -31,16 +33,17 @@
     <div class="section">
         <div class="profile">
             <img src="/assets/img/profile.png" alt="Profile Picture" class="profile-img">
-            <?php 
-                if ($result->num_rows > 0){
-                while ($row = $result->fetch_assoc()){
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
             ?>
-            <div class="profile-info">
-                <h2><?php echo $row['firstname'],' ', $row['lastname'] ?></h2>
-                <p>Latte Level</p>
-            </div>
-            <?php }} ?>
-            <a href="/customer/cus_settings.php" class="settings-icon"><img src="settings.png" alt="Settings"></a>
+                    <div class="profile-info">
+                        <h2><?php echo $row['firstname'], ' ', $row['lastname'] ?></h2>
+                        <p>Latte Level</p>
+                    </div>
+            <?php }
+            } ?>
+            <a href="../customer/cus_settings.php" class="settings-icon"><img src="settings.png" alt="Settings"></a>
         </div>
     </div>
 
@@ -85,4 +88,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {   //pag pinindot yung submit,
             <button type="submit">Login</button>
         </form>
         <div class="link">
-            <p>Don't have an account? <a href="register.php">Register</a></p>
+            <p>Don't have an account? <a href="signup.php">Register</a></p>
         </div>
     </div>
 </body>

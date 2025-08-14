@@ -1,13 +1,15 @@
 <?php
-   include "includes/dbconnect.php";
+include "includes/dbconnect.php";
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="/assets/css/cus_homepage.css">
     <title>Cups & Stories Cafe-Home Page</title>
 </head>
+
 <body>
     <div class="navbar">
         <img src="/assets/img/c&sLogo.png" alt="Cups & Stories Logo" class="logo">
@@ -69,4 +71,5 @@
         </div>
     </div>
 </body>
+
 </html>

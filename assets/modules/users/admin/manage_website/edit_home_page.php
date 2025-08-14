@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Homepage</title>
 </head>
+
 <body>
     <div>
         <nav>
@@ -12,7 +14,7 @@
             <h3>Admin</h3>
         </nav>
     </div>
-    <form method="POST" action="includes/upload.php" enctype="multipart/form-data">
+    <form method="POST" action="../manage_website/edit_home_page.php" enctype="multipart/form-data">
         <div>
             <h4>Edit Home Page</h4>
         </div>
@@ -33,7 +35,7 @@
             <div>
                 <h5>Menu Teaser</h5>
                 <input type="file" name="fileupload" id="fileupload">
-                <input type="submit" value="Upload Image" name="save">
+                <button type="submit" value="Upload Image" name="save"></button>
                 <div>
                     <h5>Description</h5>
                     <textarea name="text" rows="5" cols="20"></textarea>
@@ -43,7 +45,7 @@
             <div>
                 <h5>Reward Teaser</h5>
                 <input type="file" name="fileupload" id="fileupload">
-                <input type="submit" value="Upload Image" name="save">
+                <button type="submit" value="Upload Image" name="save"></button>
                 <div>
                     <h5>Description</h5>
                     <textarea name="text" rows="5" cols="20"></textarea>
@@ -53,4 +55,5 @@
         </div>
     </form>
 </body>
+
 </html>
