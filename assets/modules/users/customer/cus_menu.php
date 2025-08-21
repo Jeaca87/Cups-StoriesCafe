@@ -1,17 +1,19 @@
 <?php
-    include "includes/dbconnect.php";
+include "includes/dbconnect.php";
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/cus_menu.css">
+    <link rel="stylesheet" href="../../../css/cus_menu.css">
     <title>Cups & Stories Cafe-Menu Page</title>
     <script src="menu.js"></script>
 </head>
+
 <body>
     <div class="navbar">
         <img src="assets/img/c&sLogo.png" alt="Cups & Stories Logo" class="logo">
@@ -67,4 +69,5 @@
         </div>
     </div>
 </body>
+
 </html>

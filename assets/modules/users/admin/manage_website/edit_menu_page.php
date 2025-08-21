@@ -1,77 +1,88 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+    <link rel="stylesheet" href="../../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../../css/edit_menu_page.css">
+    <title>Edit Menu Page</title>
 </head>
+
 <body>
-    <div>
-        <div>
-            <nav>
-                <h3>Manage Menu</h3>
-                <h3>Admin</h3>
-            </nav>
-        </div>
+    <div class="main-container">
+        <?php include("../sidebar_admin.php") ?>
+        <main>
+            <header>
+                <span class="material-symbols-rounded" img alt="toggle">menu</span>
+                <div class="left">
+                    <span>Manage Menu</span>
+                </div>
+                <div class="right">
+                    <span>Admin</span>
+                    <span class="material-symbols-rounded" img alt="Account">account_circle</span>
+                </div>
+            </header>
 
-        <div>
-            <h4>Edit Menu Page</h4>
-        </div>
+            <h2>Edit Menu Page</h2>
+            <section>
+                <div class="row">
+                    <label for="cover-photo">Cover Photo</label>
+                    <button type="button" class="image-btn">image</button>
+                </div>
 
-        <div>
-            <div>
-                <h5>Cover Photo</h5>
-                <input type="file" name="fileupload" id="fileupload">
-                <input type="submit" value="Upload Image" name="save">
-            </div>
+                <div>
+                    <label for="cover-text">Cover Text</label>
+                    <div class="row" style="gap: 1rem;">
+                        <input id="cover-text" type="text" />
+                        <button type="button" class="image-btn">save</button>
+                    </div>
+                </div>
 
-            <div>
-                <h5>Cover Text</h5>
-                <textarea name="text" rows="5" cols="20"></textarea>
-            </div>
+                <div class="row">
+                    <label for="category">Category</label>
+                    <input id="category" type="text" />
+                </div>
 
-            <div>
-                <h5>Category</h5>
-                <input type="category" id="category">
-            </div>
+                <div class="row">
+                    <label for="name">Name</label>
+                    <input id="name" type="text" />
+                </div>
 
-            <div>
-                <h5>Name</h5>
-                <input type="name" id="Mname">
-            </div>
+                <div class="row">
+                    <label for="temperature">Temperature</label>
+                    <select id="temperature" name="temperature">
+                        <option>Hot</option>
+                        <option>Cold</option>
+                    </select>
 
-            <div>
-                <h5>Temperature</h5>
-                <select>
-                    <option value="">None</option>
-                    <option value="hot">Hot</option>
-                    <option value="cold">Cold</option>
-                </select>
+                    <label for="size">Size</label>
+                    <select id="size" name="size">
+                        <option>16oz</option>
+                        <option>12oz</option>
+                        <option>20oz</option>
+                    </select>
+                </div>
 
-                <h5>Size</h5>
-                <select>
-                    <option value="">None</option>
-                    <option value="16oz">16oz</option>
-                    <option value="24oz">24oz</option>
-                </select>
-            </div>
+                <div class="row">
+                    <label for="point">Point</label>
+                    <input id="point" type="text" />
+                </div>
 
-            <div>
-                <h5>Point</h5>
-                <input type="point" id="mpoint">
-            </div>
+                <div class="row">
+                    <label for="price">Price</label>
+                    <input id="price" type="text" />
+                </div>
 
-            <div>
-                <h5>Price</h5>
-                <input type="price" id="mprice">
-            </div>
+                <div class="row">
+                    <label for="menu-image">Menu Image</label>
+                    <button type="button" class="image-btn">image</button>
+                </div>
 
-            <div>
-                <h5>Menu Image</h5>
-                <button>image</button>
-            </div>
-            <button>save</button>
-        </div>
+                <button type="button" class="save-btn">save</button>
+            </section>
+        </main>
     </div>
 </body>
+
 </html>

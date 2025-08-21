@@ -6,7 +6,7 @@ include "includes/dbconnect.php";
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="/assets/css/cus_homepage.css">
+    <link rel="stylesheet" href="../../../css/cus_homepage.css">
     <title>Cups & Stories Cafe-Home Page</title>
 </head>
 
