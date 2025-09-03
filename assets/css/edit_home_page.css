@@ -15,7 +15,7 @@ body {
             background:  #f0f1f0;
         }
 
-        header {
+        header{
             background-color: #4d2610;
             display: flex;
             justify-content: space-between;
@@ -23,7 +23,11 @@ body {
             padding: 1rem 2rem;
         }
 
-        header .left,
+        header .left{
+            margin-left: 1rem; /* ilapit sa kaliwa */
+            flex: 1; /* itulak yung .right papunta kanan */
+        }
+        
         header .right {
             display: flex;
             align-items: center;

@@ -7,7 +7,9 @@
     <title>Menu</title>
 
 </head>
+
 <body>
+    <?php include("../cashier/sidebar_staff.php") ?>
     <div>
         <nav>
             <h3>Menu</h3>
@@ -40,4 +42,5 @@
         </tbody>
     </div>
 </body>
+
 </html>

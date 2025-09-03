@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
-    <link rel="stylesheet" href="../../../../css/sidebar.css">
     <link rel="stylesheet" href="../../../../css/edit_home_page.css">
     <title>Edit Home Page</title>
 </head>
@@ -14,7 +13,9 @@
         <?php include("../sidebar_admin.php") ?>
         <main>
             <header>
-                <span class="material-symbols-rounded" img alt="toggle">menu</span>
+                <a href="../sidebar_admin.php">
+                    <span class="material-symbols-rounded" img alt="Menu">menu</span>
+                </a>
                 <div class="left">
                     <span>Manage Home</span>
                 </div>

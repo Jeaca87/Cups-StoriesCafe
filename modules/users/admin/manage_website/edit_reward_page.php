@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
-    <link rel="stylesheet" href="../../../../css/sidebar.css">
     <link rel="stylesheet" href="../../../../css/edit_reward_page.css">
     <title>Edit Reward Page</title>
 </head>
