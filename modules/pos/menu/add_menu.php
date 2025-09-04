@@ -9,7 +9,7 @@
 
 <body>
     <div>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <input type="text" name="menuid" disabled>
 
             <label>Category:</label>

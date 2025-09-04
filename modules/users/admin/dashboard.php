@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
 </head>
-<body>
-    
-    <?php include 'admin/sidebar_admin.php'?>
 
+<body>
+
+    <?php include 'admin/sidebar_admin.php' ?>
+    <!--dapat naka card dito sa dashbord ng admin-->
     <div>
         <nav>
             <h3>Dashboard</h3>
@@ -40,4 +42,5 @@
         <h5>date, time, receipt no., total</h5><!-- date ng transaction-->
     </div>
 </body>
+
 </html>
