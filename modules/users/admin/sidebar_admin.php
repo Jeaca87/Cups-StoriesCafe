@@ -3,7 +3,7 @@
 $page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER['SCRIPT_NAME'], "/") + 1);
 ?>
 
-<link rel="stylesheet" href="/Cups&StoriesCafe/assets/css/sidebar_admin.css">
+<link rel="stylesheet" href="/Cups&StoriesCafe/assets/css/sidebar.css">
 <div class="container">
     <div class="sidebar">
         <div class="header">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
-    <link rel="stylesheet" href="../../../../css/edit_home_page.css">
+    <link rel="stylesheet" href="../../../../assets/css/edit_home_page.css">
     <title>Edit Home Page</title>
 </head>
 
