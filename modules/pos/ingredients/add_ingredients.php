@@ -14,24 +14,20 @@
         <div class="image">
         </div>
     </div>
-    <form>
-        <h3>Add Ingredients</h3>
+    <h3>Add Ingredients</h3>
+    <form method="POST" action="../../../includes/add_ingre.inc.php">
         <h4>Item Id:</h4>
+        <input type="number" id="itmid" name="itmid" disabled>
 
-        <div>
-            <label>Item Name:</label>
-            <input type="text" id="iname" name="iname">
-        </div>
+        <label>Item Name:</label>
+        <input type="text" id="iname" name="iname" required>
 
-        <div>
-            <label>QTY:</label>
-            <input type="number" id="inum" name="inum">
-        </div>
+        <label>QTY:</label>
+        <input type="number" id="inum" name="inum" required>
 
-        <div>
-            <label>Add Date:</label>
-            <input type="date" id="idate" name="idate">
-        </div>
+        <label>Category:</label>
+        <input type="text" id="icate" name="icate" required>
+
         <button type="submit" id="isave" name="isave">Save</button>
     </form>
 </body>

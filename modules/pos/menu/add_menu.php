@@ -1,3 +1,9 @@
+<?php
+require '../../../includes/dbconnect.php';
+include '../../../includes/add_menu.inc.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,24 +15,25 @@
 
 <body>
     <div>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST">
             <input type="text" name="menuid" disabled>
 
             <label>Category:</label>
-            <input type="text" name="category">
+            <input type="text" name="category" required><br><br>
 
             <label>Product Name:</label>
-            <input type="text" name="product">
+            <input type="text" name="product" required><br><br>
 
             <label>Price:</label>
-            <input type="text" name="price">
+            <input type="number" step="0.01" name="price" required><br><br>
 
             <label>Temperature:</label>
-            <select>
+            <select name="temperature">
                 <option value="">None</option>
                 <option value="hot">Hot</option>
                 <option value="cold">Cold</option>
-            </select>
+            </select><br><br>
+
             <button type="submit" name="submit">Save</button>
         </form>
     </div>

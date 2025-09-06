@@ -1,23 +1,31 @@
 <?php
 require '../includes/dbconnect.php';
-
+// kapag nag-submit yung form
 if (isset($_POST['submit'])) {
-    $item_name = $_POST['item_name'];
-    $price = $_POST['price'];
-    $size = $_POST['size'];
-    $image = $_FILES['image']['name'];
+    $category   = trim($_POST['category']);
+    $product    = trim($_POST['product']);
+    $price      = trim($_POST['price']);
+    $temperature = trim($_POST['temperature']);
 
-    $target = "uploads/" . basename($image);
-    move_uploaded_file($_FILES['image']['tmp_name'], $target);
+    // validation (basic)
+    if (!empty($category) && !empty($product) && !empty($price)) {
+        try {
+            $sql = "INSERT INTO menu (category, product_name, price, temperature, created_at) 
+                    VALUES (:category, :product, :price, :temperature, NOW())";
+            $stmt = $pdo->prepare($sql);
 
-    $sql = "INSERT INTO menu (item_name, price, size, image) VALUES (:item_name, :price, :size, :image)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':item_name' => $item_name,
-        ':price' => $price,
-        ':size' => $size,
-        ':image' => $image
-    ]);
+            $stmt->bindParam(':category', $category);
+            $stmt->bindParam(':product', $product);
+            $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':temperature', $temperature);
 
-    echo "New menu item added!";
+            $stmt->execute();
+
+            echo "<p style='color:green;'>Menu item saved successfully!</p>";
+        } catch (PDOException $e) {
+            echo "<p style='color:red;'>Error: " . $e->getMessage() . "</p>";
+        }
+    } else {
+        echo "<p style='color:red;'>Please fill in all required fields.</p>";
+    }
 }
