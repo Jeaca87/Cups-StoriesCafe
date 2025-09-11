@@ -1,5 +1,5 @@
 <?php
-include '../includes/dbconnect.php';
+include '../dbconnect.php';
 
 $id = $_GET['id'] ?? null;
 if (!$id) die("Invalid ID");

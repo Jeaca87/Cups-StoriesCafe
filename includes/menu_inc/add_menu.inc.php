@@ -1,5 +1,5 @@
 <?php
-require '../includes/dbconnect.php';
+require '../dbconnect.php';
 // kapag nag-submit yung form
 if (isset($_POST['submit'])) {
     $category   = trim($_POST['category']);
