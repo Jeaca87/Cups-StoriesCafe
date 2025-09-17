@@ -12,8 +12,8 @@ $page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
         </div>
         <ul>
             <!-- yung laman ng $page ay kung saang link mapupunta -->
-            <li class="nav-link <?php echo ($page == 'admin.php') ? 'active' : ''; ?>">
-                <a href="../admin/admin.php">
+            <li class="nav-link <?php echo ($page == 'dashnoard.php') ? 'active' : ''; ?>">
+                <a href="../admin/dashboard.php">
                     <span class="material-symbols-rounded" img alt="Dashboard">dashboard</span>
                     Dashboard
                 </a>
@@ -43,44 +43,41 @@ $page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'transaction.php') ? 'active' : ''; ?>">
-                <a href="/assets/modules/pos/menu/transaction.php">
+                <a href="../../pos/transaction.php">
                     <span class="material-symbols-rounded" img alt="Transaction">receipt</span>
                     Transactions
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'ingredients.php') ? 'active' : ''; ?>">
-                <a href="/assets/modules/pos/ingredients/ingredients.php">
+                <a href="../../pos/ingredients/ingredients.php">
                     <span class="material-symbols-rounded" img alt="Ingredients">grocery</span>
                     Ingredients
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'people.php') ? 'active' : ''; ?>">
-                <a href="/assets/modules/pos/people.php">
+                <a href="../../pos/people.php">
                     <span class="material-symbols-rounded" img alt="People">group</span>
                     People
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'sales_report.php') ? 'active' : ''; ?>">
-                <a href="/assets/modules/pos/sales_report/sales_report.php">
+                <a href="../../sales_and_report/sales_report.php">
                     <span class="material-symbols-rounded" img alt="Reports">monitoring</span>
                     Reports
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'account.php') ? 'active' : ''; ?>">
-                <a href="./account.php">
+                <a href="../admin/account.php">
                     <span class="material-symbols-rounded" img alt="Account">account_circle</span>
                     Account
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'admin.php') ? 'active' : ''; ?>">
-                <a href="#">
+                <a href="../../../includes/logout.php">
                     <span class="material-symbols-rounded" img alt="Logout">logout</span>
                     Logout
                 </a>
             </li>
         </ul>
-        <button aria-label="Toggle menu" class="toggle-menu">
-            <i class="fas fa-bars"></i>
-        </button>
     </div>
 </div>

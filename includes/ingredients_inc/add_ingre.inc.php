@@ -1,27 +1,26 @@
 <?php
-require '../includes/dbconnect.php';
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+include __DIR__ . '/../dbconnect.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = trim($_POST['name']);
-        $category = trim($_POST['category']);
-        $quantity = (int) $_POST['quantity'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST['i_name']);
+    $category = trim($_POST['i_unit']);
+    $qty = (int) $_POST['i_qty'];
 
-        $sql = "INSERT INTO ingredients (name, category, quantity) VALUES (:name, :category, :quantity)";
-        $stmt = $pdo->prepare($sql);
+    $sql = "INSERT INTO ingredients (i_name, i_unit, i_qty) VALUES (:name, :category, :qty)";
+    $stmt = $pdo->prepare($sql);
 
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':category', $category);
-        $stmt->bindParam(':quantity', $quantity);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':category', $category);
+    $stmt->bindParam(':qty', $qty);
 
-        if ($stmt->execute()) {
-            echo "Ingredient added successfully!";
-        } else {
-            echo "Failed to add ingredient.";
-        }
+    if ($stmt->execute()) {
+        // kunin yung auto increment ID na ginawa ni database
+        $lastId = $pdo->lastInsertId();
+        // redirect sa view page (pwede rin sa details ng bagong ingredient)
+        header("Location: ../../modules/pos/ingredients/ingredients.php?success=1&id=$lastId");
+        exit();
+    } else {
+        header("Location: ../../modules/pos/ingredients/ingredients.php?error=1");
+        exit();
     }
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
 }

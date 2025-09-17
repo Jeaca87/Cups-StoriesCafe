@@ -1,24 +1,26 @@
 <?php
-require '../includes/dbconnect.php';
+require __DIR__ . '/../dbconnect.php';
 
-$id = $_GET['id'];
-$stmt = $pdo->prepare("SELECT * FROM ingredients WHERE id = :id");
-$stmt->execute([':id' => $id]);
-$ingredient = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
+    $id = (int) $_POST['i_id'];
+    $name = trim($_POST['i_name']);
+    $category = trim($_POST['i_unit']);
+    $qty = (int) $_POST['i_qty'];
 
-if (!$ingredient) {
-    die("Ingredient not found!");
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim($_POST['name']);
-    $category = trim($_POST['category']);
-    $quantity = (int) $_POST['quantity'];
-
-    $sql = "UPDATE ingredients SET name = :name, category = :category, quantity = :quantity WHERE id = :id";
+    $sql = "INSERT INTO ingredients (i_name, i_unit, i_qty, date_created) VALUES (:name, :category, :qty, NOW())";
+    $sql = "UPDATE ingredients SET i_name = :name, i_unit = :category, i_qty = :qty WHERE i_id = :id";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([':name' => $name, ':category' => $category, ':quantity' => $quantity, ':id' => $id]);
 
-    echo "✅ Updated successfully!";
-    echo "<br><a href='index.php'>Back to list</a>";
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':category', $category);
+    $stmt->bindParam(':qty', $qty);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        header("Location: ../../modules/pos/ingredients/ingredients.php?updated=1");
+        exit();
+    } else {
+        header("Location: ../../modules/pos/ingredients/ingredients.php?error=1");
+        exit();
+    }
 }
