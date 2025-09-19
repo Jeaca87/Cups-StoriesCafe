@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <?php include("../../../includes/ingredients_inc/add_ingre.inc.php") ?>
     <div class="navbar">
         <h2>Ingredients</h2>
         <h2>Admin</h2>

@@ -6,17 +6,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = trim($_POST['i_unit']);
     $qty = (int) $_POST['i_qty'];
 
-    $sql = "INSERT INTO ingredients (i_name, i_unit, i_qty) VALUES (:name, :category, :qty)";
+    // Prevent negative values
+    if ($qty < 0) {
+        $qty = 0;
+    }
+
+    $sql = "INSERT INTO ingredients (i_name, i_unit, i_qty, date_created) 
+            VALUES (:name, :category, :qty, NOW())";
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':category', $category);
-    $stmt->bindParam(':qty', $qty);
+    $stmt->bindParam(':qty', $qty, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        // kunin yung auto increment ID na ginawa ni database
         $lastId = $pdo->lastInsertId();
-        // redirect sa view page (pwede rin sa details ng bagong ingredient)
         header("Location: ../../modules/pos/ingredients/ingredients.php?success=1&id=$lastId");
         exit();
     } else {

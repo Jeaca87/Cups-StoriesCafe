@@ -7,13 +7,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $category = trim($_POST['i_unit']);
     $qty = (int) $_POST['i_qty'];
 
-    $sql = "INSERT INTO ingredients (i_name, i_unit, i_qty, date_created) VALUES (:name, :category, :qty, NOW())";
-    $sql = "UPDATE ingredients SET i_name = :name, i_unit = :category, i_qty = :qty WHERE i_id = :id";
+    // Bawal negative
+    if ($qty < 0) {
+        $qty = 0;
+    }
+
+    $sql = "UPDATE ingredients 
+            SET i_name = :name, 
+                i_unit = :category, 
+                i_qty = :qty, 
+                date_updated = NOW()
+            WHERE i_id = :id";
+
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':category', $category);
-    $stmt->bindParam(':qty', $qty);
+    $stmt->bindParam(':qty', $qty, PDO::PARAM_INT);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
