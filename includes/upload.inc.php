@@ -1,50 +1,52 @@
 <?php
-require 'includes/dbconnect.php';
+require '../includes/dbconnect.php';
 session_start();
 
-$target_dir = "upload/";
-$target_file = $target_dir . uniqid() . "_" . basename($FILES["fileupload"]["name"]); //use unique name to overwrite
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+if (isset($_POST["submit"]) && isset($_FILES["fileupload"])) {
+    $target_dir = "upload/";
+    $uniqueName = uniqid() . "_" . basename($_FILES["fileupload"]["name"]);
+    $target_file = $target_dir . $uniqueName;
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-$id = $_SESSION['id'];
-$sql = "SELECT cus_pic FROM customer WHERE id = ?";
-$stmt = $pdo->prepare($sql);
-$row = $stmt([$cus_id]);
-$old_image = $row['pic'];
+    // kunin menu id
+    $m_id = $_SESSION['m_id'];
 
-//check if $uploadOk is set to 0 by an error
-if (isset($_POST["submit"])) {
+    // kunin old image
+    $sql = "SELECT image FROM menu WHERE m_id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$m_id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $old_image = $row['image'] ?? null;
 
-    //check the image file size
-    if ($_FILES["fileupload"]["name"] > 500000) {
-        echo "File is too large";
+    // check file size
+    if ($_FILES["fileupload"]["size"] > 500000) {
+        echo "File is too large.";
         $uploadOk = 0;
     }
 
-    //check image file format
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        echo "Only jpg, png, and jpeg are allowed";
+    // check file type
+    if (!in_array($imageFileType, ["jpg", "jpeg", "png"])) {
+        echo "Only JPG, JPEG & PNG are allowed.";
         $uploadOk = 0;
     }
 
     if ($uploadOk == 1) {
-        //papaltan yung old image if nag exists
-        if (!empty($old_image) && (file_exists("upload/" . $old_image))) {
-            unlink("upload/" . $old_image); // dito ay madedelete yung old image
+        // delete old image if exists
+        if (!empty($old_image) && file_exists($target_dir . $old_image)) {
+            unlink($target_dir . $old_image);
         }
 
-        //upload new image
-        if (move_uploaded_file($_FILES['fileupload']['tmp_name'], $target_file)) {
-            echo "Your image has been uploaded";
+        // upload new image
+        if (move_uploaded_file($_FILES["fileupload"]["tmp_name"], $target_file)) {
+            echo "Your image has been uploaded.";
 
-            //upload yung image sa database
-            $new_image = basename($target_file);
-            $update = "UPDATE customer SET cus_pic = ?";
+            // update database
+            $update = "UPDATE menu SET image = ? WHERE m_id = ?";
             $stmt = $pdo->prepare($update);
-            $stmt->execute([$new_image, $cus_id]);
+            $stmt->execute([$uniqueName, $m_id]);
         } else {
-            echo "Error upload image";
+            echo "Error uploading image.";
         }
     }
 }
