@@ -4,43 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/admin_dashboard.css">
     <title>Admin Dashboard</title>
 </head>
 
 <body>
 
-    <?php include 'admin/sidebar_admin.php' ?>
+    <?php include 'admin/sidebar_admin.php'?>
     <!--dapat naka card dito sa dashbord ng admin-->
-    <div>
+    <div class="navbar">
         <nav>
-            <h3>Dashboard</h3>
-            <h3>Admin</h3>
+            <h1>Dashboard</h1>
+            <h2>Admin</h2>
         </nav>
     </div>
-    <hr>
-    <div>
+    <div class="searchbar">
         <input type="search" id="search" placeholder="Search">
     </div>
-    <hr>
-    <div>
-        <h5>Menu</h5>
-    </div>
-    <div>
-        <h5>Ingredients</h5>
-    </div>
-    <div>
-        <h5>Member List</h5>
-    </div>
-    <div>
-        <h5>Rewards</h5>
-    </div>
-    <div>
-        <h5>Current Sales</h5>
-        <h5>Today's Sales</h5>
-    </div>
-    <div>
-        <h5>date, time, receipt no., total</h5><!-- date ng transaction-->
+    <div class="information">
+        <div class="menu">
+            <div class="menu-details">
+                <h2>Menu</h2>
+            </div>
+        </div>
+        <div class="ingredients">
+            <div class="ingredients-details">
+                <h2>Ingredients</h2>
+            </div>
+        </div>
+        <div class="members">
+            <div class="members-details">
+                <h2>Member List</h2>
+            </div>
+        </div>
+        <div class="rewards">
+            <div class="rewards-details">
+                <h2>Rewards</h2>
+            </div>
+        </div>
+        <div class="sales">
+            <div class="sales-details">
+                <h3>Current Sales</h3>
+                <h3 id="today">Today's Sales</h3>
+            </div>
+        </div>
+        <div class="transactions">
+            <div class="transaction-details">
+                <h3>Date</h3>
+                <table>
+                    <tr>
+                        <th>Time</th>
+                        <th>Receipt No.</th>
+                        <th>Total</th>
+                   </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
-
 </html>
