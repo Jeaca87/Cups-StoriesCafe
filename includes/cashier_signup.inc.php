@@ -1,62 +1,67 @@
 <?php
-session_start(); // Start the session at the beginning
+session_start();
+require_once 'dbconnect.php';
 
-include '../includes/dbconnect.php';
+$errors = [];
 
-// Function to generate a CSRF token
-function generateCSRFToken()
-{
-    if (!isset($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
-    return $_SESSION['csrf_token'];
+// ✅ CSRF check
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    $errors[] = "Invalid CSRF token.";
 }
 
-// Function to validate a CSRF token
-function validateCSRFToken($token)
-{
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+// ✅ Basic validation
+$fname = trim($_POST['fname'] ?? '');
+$lname = trim($_POST['lname'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$pword = $_POST['pword'] ?? '';
+$pword2 = $_POST['pword2'] ?? '';
+$cashier_code = trim($_POST['cashier_code'] ?? '');
+
+if ($pword !== $pword2) {
+    $errors[] = "Passwords do not match.";
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // 1. CSRF Token Validation
-    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
-        echo "<p>Invalid request. Please try again.</p>";
-        // Optionally, log the attempt or redirect to an error page
-        error_log("CSRF attack detected from IP: " . $_SERVER['REMOTE_ADDR']);
-        exit; // Stop further processing if the token is invalid
-    }
-
-    $fname = trim($_POST['fname']);
-    $lname  = trim($_POST['lname']);
-    $email = trim($_POST['email']);
-    $pword = $_POST['pword1'];
-    $confirm_pword = $_POST['pword2'];
-    $cashier_code = trim($_POST['staff_code']);
-
-    // Example secret code (pwede mo rin ilagay sa config file or database)
-    $valid_code = "CAFE123";
-
-    if ($pword !== $confirm_pword) {
-        echo "<p>Passwords do not match!</p>";
-    } elseif ($cashier_code !== $valid_code) {
-        echo "<p>Invalid Staff Code!</p>";
-    } else {
-        $hashed_pword = password_hash($pword, PASSWORD_DEFAULT);
-
-        try {
-            $stmt = $pdo->prepare("INSERT INTO staff_users (fname, lname, email, pword, role) VALUES (?, ?, ?, ?, 'cashier')");
-            $stmt->execute([$fname, $lname, $email, $hashed_pword]);
-            echo "<p>Staff (Cashier) account created successfully!</p>";
-        } catch (PDOException $e) {
-            if ($e->errorInfo[1] == 1062) {
-                echo "<p>Email already registered!</p>";
-            } else {
-                echo "<p>Error: " . $e->getMessage() . "</p>";
-            }
-        }
-    }
+if (empty($cashier_code)) {
+    $errors[] = "Cashier code is required.";
 }
 
-// Generate CSRF token if it doesn't exist
-generateCSRFToken();
+if (!empty($errors)) {
+    $_SESSION['form_errors'] = $errors;
+    header("Location: ../cashier_signup.php");
+    exit();
+}
+
+// ✅ Check code validity
+$stmt = $conn->prepare("SELECT * FROM cashier_codes WHERE code = ? AND used_at IS NULL AND (expires_at IS NULL OR expires_at >= NOW()) LIMIT 1");
+$stmt->bind_param("s", $cashier_code);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    $_SESSION['form_errors'] = ["Invalid or expired cashier code."];
+    header("Location: ../cashier_signup.php");
+    exit();
+}
+
+$invite = $result->fetch_assoc();
+
+// ✅ Insert cashier user
+$hashedPassword = password_hash($pword, PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO pos_users (fname, lname, email, pass, role) VALUES (?, ?, ?, ?, 'cashier')");
+$stmt->bind_param("ssss", $fname, $lname, $email, $hashedPassword);
+if (!$stmt->execute()) {
+    $_SESSION['form_errors'] = ["Failed to register user."];
+    header("Location: ../cashier_signup.php");
+    exit();
+}
+$newUserId = $stmt->insert_id;
+
+// ✅ Mark invite as used
+$stmt = $conn->prepare("UPDATE cashier_codes SET used_by = ?, used_at = NOW() WHERE id = ?");
+$stmt->bind_param("ii", $newUserId, $invite['id']);
+$stmt->execute();
+
+$_SESSION['form_success'] = true;
+header("Location: ../cashier_signup.php");
+exit();

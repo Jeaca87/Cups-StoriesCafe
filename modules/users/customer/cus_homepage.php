@@ -1,5 +1,5 @@
 <?php
-include "includes/dbconnect.php";
+include "../../../includes/dbconnect.php";
 ?>
 
 <!DOCTYPE html>

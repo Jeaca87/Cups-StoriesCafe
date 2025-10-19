@@ -10,7 +10,10 @@
 
 <body>
 
+<<<<<<< Updated upstream
     <?php include 'admin/sidebar_admin.php'?>
+=======
+>>>>>>> Stashed changes
     <!--dapat naka card dito sa dashbord ng admin-->
     <div class="navbar">
         <nav>

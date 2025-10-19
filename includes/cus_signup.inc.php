@@ -1,87 +1,75 @@
 <?php
 session_start();
-include '../includes/dbconnect.php';
+require_once __DIR__ . '/dbconnect.php';
 
-// Check if database connection exists
-if (!isset($pdo)) {
-    die("Database connection failed");
-}
 
 $errors = [];
 $success = false;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // CSRF Protection (add token to your form)
-    if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
-        $errors[] = "Invalid request";
-    }
-    // Add after line 14 for debugging
-    //echo "Session token: " . ($_SESSION['csrf_token'] ?? 'NOT SET') . "<br>";
-    //echo "POST token: " . ($_POST['csrf_token'] ?? 'NOT SET') . "<br>";
+// ✅ Function to validate CSRF
+function validateCSRFToken(string $token): bool
+{
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
 
-    // Input validation
-    $fname = trim($_POST['c_fname'] ?? '');
-    $lname = trim($_POST['c_lname'] ?? '');
-    $email = trim($_POST['c_email'] ?? '');
-    $pword = $_POST['c_pass'] ?? '';
-    $confirm_pword = $_POST['c_pass2'] ?? '';
+//sa customer signup
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // 1️⃣ CSRF Validation
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $errors[] = "Invalid request. Please refresh the page and try again.";
+    } else {
+        // 2️⃣ Collect & sanitize
+        $fname  = htmlspecialchars(trim($_POST['c_fname'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $lname  = htmlspecialchars(trim($_POST['c_lname'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $email  = filter_var(trim($_POST['c_email'] ?? ''), FILTER_VALIDATE_EMAIL);
+        $pass   = $_POST['c_pass'] ?? '';
+        $pass2  = $_POST['c_pass2'] ?? '';
 
-    // Validate required fields
-    if (empty($fname)) $errors[] = "First name is required";
-    if (empty($lname)) $errors[] = "Last name is required";
-    if (empty($email)) $errors[] = "Email is required";
-    if (empty($pword)) $errors[] = "Password is required";
+        // 3️⃣ Validation
+        if (!$fname || !$lname) {
+            $errors[] = "First name and Last name are required.";
+        }
+        if (!$email) {
+            $errors[] = "Please enter a valid email address.";
+        }
+        if (strlen($pass) < 8) {
+            $errors[] = "Password must be at least 8 characters.";
+        }
+        if ($pass !== $pass2) {
+            $errors[] = "Passwords do not match.";
+        }
 
-    // Validate email format
-    if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format";
-    }
+        // 4️⃣ Save to DB if valid
+        if (empty($errors)) {
+            $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
 
-    // Validate password strength
-    if (!empty($pword) && strlen($pword) < 8) {
-        $errors[] = "Password must be at least 8 characters long";
-    }
+            try {
+                $stmt = $pdo->prepare("INSERT INTO customer (c_fname, c_lname, c_email, c_pass) 
+                                       VALUES (:fname, :lname, :email, :pass)");
+                $stmt->execute([
+                    ':fname' => $fname,
+                    ':lname' => $lname,
+                    ':email' => $email,
+                    ':pass' => $hashed_pass
+                ]);
 
-    // Check password confirmation
-    if ($pword !== $confirm_pword) {
-        $errors[] = "Passwords do not match";
-    }
-
-    // If no errors, proceed with registration
-    if (empty($errors)) {
-        $hashed_pword = password_hash($pword, PASSWORD_DEFAULT);
-
-        try {
-            $stmt = $pdo->prepare("INSERT INTO customer (c_fname, c_lname, c_email, c_pass) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$fname, $lname, $email, $hashed_pword]);
-            $success = true;
-
-            // Redirect to login page or dashboard
-            header("Location: index.php?registered=1");
-            exit();
-        } catch (PDOException $e) {
-            // Check for duplicate email (MySQL error code)
-            if ($e->getCode() == 23000) {
-                $errors[] = "Email already registered";
-            } else {
-                error_log("Registration error: " . $e->getMessage());
-                $errors[] = "Registration failed. Please try again.";
+                $success = true;
+            } catch (PDOException $e) {
+                if ($e->errorInfo[1] == 1062) { // Duplicate email
+                    $errors[] = "This email is already registered.";
+                } else {
+                    error_log("DB Error: " . $e->getMessage());
+                    $errors[] = "Something went wrong. Please try again later.";
+                }
             }
         }
     }
 }
 
-// Generate CSRF token for the form
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-?>
+// ✅ Store messages in session for HTML display
+$_SESSION['form_errors'] = $errors;
+$_SESSION['form_success'] = $success;
 
-<!-- Display errors -->
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p class="error"><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+// ✅ Redirect back to signup page
+header("Location: ../cus_signup.php");
+exit;
