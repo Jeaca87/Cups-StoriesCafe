@@ -41,11 +41,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         $stmt->bindParam(':size', $size);
         $stmt->bindParam(':image', $imageName);
 
+
+        // Execute the statement
+        $result = $stmt->execute();
+
+        // Use a switch statement based on the result
+        switch ($result) {
+            case true:
+                // If execution is successful
+                header("Location: ../../modules/pos/menu/menu.php?success=1");
+                exit();
+
+            case false:
+                // If execution fails
+                header("Location: ../../modules/pos/menu/add_menu.php?error=1");
+                exit();
+        }
+
+
+
         if ($stmt->execute()) {
             header("Location: ../../modules/pos/menu/menu.php?success=1");
+            header("Location: ../../modules/users/customer/cus_menu.php?success=1");
             exit();
         } else {
             header("Location: ../../modules/pos/menu/add_menu.php?error=1");
+            header("Location: ../../modules/users/customer/cus_menu.php?error=1");
             exit();
         }
     } catch (PDOException $e) {

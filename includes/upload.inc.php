@@ -1,5 +1,5 @@
 <?php
-require '../includes/dbconnect.php';
+require 'dbconnect.php';
 session_start();
 
 if (isset($_POST["submit"]) && isset($_FILES["fileupload"])) {

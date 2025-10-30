@@ -24,9 +24,11 @@ if (isset($_GET['id'])) {
             }
 
             header("Location: ../../modules/pos/menu/menu.php?deleted=1");
+            header("Location: ../../modules/users/customer/cus_menu.php?success=1");
             exit();
         } else {
             header("Location: ../../modules/pos/menu/menu.php?error=notfound");
+            header("Location: ../../modules/users/customer/cus_menu.php?error=notfound");
             exit();
         }
     } catch (PDOException $e) {
@@ -34,5 +36,6 @@ if (isset($_GET['id'])) {
     }
 } else {
     header("Location: ../../modules/pos/menu/menu.php?error=noid");
+    header("Location: ../../modules/users/customer/cus_menu.php?error=noid");
     exit();
 }

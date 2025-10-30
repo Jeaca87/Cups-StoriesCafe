@@ -1,3 +1,29 @@
+<?php
+require_once __DIR__ . '/../../../../includes/dbconnect.php';
+require_once __DIR__ . '/../../../../includes/reward_func.inc.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Only read POST data when form is submitted
+    $data = [
+        'name'        => $_POST['name'] ?? '',
+        'category'    => $_POST['category'] ?? '',
+        'start_date'  => $_POST['start_date'] ?? '',
+        'expired_date' => $_POST['expired_date'] ?? '',
+        'point'       => (int) ($_POST['point'] ?? 0)
+    ];
+
+    $result = addReward($pdo, $data);
+
+    if ($result) {
+        echo "";
+    } else {
+        echo "";
+    }
+}
+?>
+
+
+
 <html lang="en">
 
 <head>
@@ -25,37 +51,44 @@
 
             <h2>Edit Reward Page</h2>
             <section>
-                <div class="row">
-                    <label for="cover-photo">Cover Photo</label>
-                    <input type="file" name="fileupload" id="fileupload">
-                    <button type="submit" value="Upload Image" class="image-btn" name="save">save</button>
-                </div>
-
                 <div>
-                    <label for="cover-text">Cover Text</label>
-                    <div class="row" style="gap: 1rem;">
-                        <input id="cover-text" type="text" />
+                    <div class="row">
+                        <label for="cover-photo">Cover Photo</label>
                         <input type="file" name="fileupload" id="fileupload">
                         <button type="submit" value="Upload Image" class="image-btn" name="save">save</button>
+                    </div>
+
+                    <div>
+                        <label for="cover-text">Cover Text</label>
+                        <div class="row" style="gap: 1rem;">
+                            <input id="cover-text" type="text" />
+                            <input type="file" name="fileupload" id="fileupload">
+                            <button type="submit" value="Upload Image" class="image-btn" name="save">save</button>
+                        </div>
                     </div>
                 </div>
 
                 <p>Add Reward:</p>
 
-                <form>
+                <form method="POST" action="" enctype="multipart/form-data">
                     <div class="form-row">
                         <label for="category">Category</label>
-                        <input id="category" type="text" aria-label="Category" />
+                        <input id="category" type="text" name="category" />
                     </div>
 
                     <div class="form-row">
                         <label for="name">Name</label>
-                        <input id="name" type="text" aria-label="Name" />
+                        <input id="name" type="text" name="name" />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="point">Points</label>
+                        <input id="point" type="number" name="point" min="0" value="0" />
                     </div>
 
                     <div class="form-row">
                         <label for="percent">Percent</label>
-                        <select id="percent" aria-label="Percent">
+                        <select id="percent" name="percent">
                             <option>5%</option>
                             <option>10%</option>
                             <option>15%</option>
@@ -64,8 +97,13 @@
                     </div>
 
                     <div class="form-row">
-                        <label for="valid-date">Valid Date</label>
-                        <input id="valid-date" type="date" aria-label="Valid Date" />
+                        <label for="start_date">Start Date</label>
+                        <input id="start_date" type="date" name="start_date" />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="expired_date">Expired Date</label>
+                        <input id="expired_date" type="date" name="expired_date" />
                     </div>
 
                     <div class="textarea-group">

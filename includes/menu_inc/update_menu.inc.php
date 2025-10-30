@@ -52,11 +52,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         $stmt->bindParam(':image', $imageName);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
+        // Execute the statement
+        $result = $stmt->execute();
+        // Use a switch statement based on the result
+        switch ($result) {
+            case true:
+                // If execution is successful
+                header("Location: ../../modules/pos/menu/menu.php?success=1");
+                exit();
+            case false:
+                // If execution fails
+                header("Location: ../../modules/pos/menu/add_menu.php?error=1");
+                exit();
+        }
+
+
         if ($stmt->execute()) {
             header("Location: ../../modules/pos/menu/menu.php?updated=1");
+            header("Location: ../../modules/users/customer/cus_menu.php?updated=1");
             exit();
         } else {
             header("Location: ../../modules/pos/menu/edit_menu.php?id=$id&error=1");
+            header("Location: ../..//modules/users/customer/cus_menu.php?id=$id&error=1");
             exit();
         }
     } catch (PDOException $e) {
