@@ -1,45 +1,32 @@
 <?php
-require_once __DIR__ . '/dbconnect.php'; // ✅ safer absolute path
+require_once __DIR__ . '/dbconnect.php';
 
 /**
- * Fetch all rewards (with optional pagination)
+ * Get all rewards
  */
-function getAllRewards(PDO $pdo, ?int $limit = null, int $offset = 0): array
+function getAllRewards(PDO $pdo): array
 {
     try {
-        $sql = "SELECT * FROM rewards ORDER BY r_start_date DESC";
-
-        if ($limit !== null) {
-            $sql .= " LIMIT :limit OFFSET :offset";
-        }
-
-        $stmt = $pdo->prepare($sql);
-
-        if ($limit !== null) {
-            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->query("SELECT * FROM rewards ORDER BY r_start_date DESC");
+        return $stmt->fetchAll();
     } catch (PDOException $e) {
-        error_log("Database error in getAllRewards: " . $e->getMessage());
+        error_log("getAllRewards error: " . $e->getMessage());
         return [];
     }
 }
 
 /**
- * Fetch one reward (for edit or view)
+ * Get a single reward
  */
 function getRewardById(PDO $pdo, int $id): ?array
 {
     try {
         $stmt = $pdo->prepare("SELECT * FROM rewards WHERE r_id = :id");
         $stmt->execute([':id' => $id]);
-        $reward = $stmt->fetch(PDO::FETCH_ASSOC);
+        $reward = $stmt->fetch();
         return $reward ?: null;
     } catch (PDOException $e) {
-        error_log("Database error in getRewardById: " . $e->getMessage());
+        error_log("getRewardById error: " . $e->getMessage());
         return null;
     }
 }
@@ -47,71 +34,79 @@ function getRewardById(PDO $pdo, int $id): ?array
 /**
  * Add a new reward
  */
-function addReward(PDO $pdo, array $data): bool
+function addReward($pdo, $data)
 {
-    if (!isset($data['name'], $data['category'], $data['start_date'], $data['expired_date'], $data['point'])) {
-        return false;
-    }
-
-    $point = filter_var($data['point'], FILTER_VALIDATE_INT);
-    if ($point === false || $point < 0) {
-        return false;
-    }
-
     try {
-        $stmt = $pdo->prepare("
-            INSERT INTO rewards (r_name, r_category, r_start_date, r_expired_date, r_point)
-            VALUES (:name, :category, :start_date, :expired_date, :point)
-        ");
+        $sql = "INSERT INTO rewards 
+                (r_name, r_category, r_percent, r_start_date, r_expired_date, r_point, r_description)
+                VALUES 
+                (:r_name, :r_category, :r_percent, :r_start_date, :r_expired_date, :r_point, :r_description)";
+        $stmt = $pdo->prepare($sql);
+
         $stmt->execute([
-            ':name' => trim($data['name']),
-            ':category' => trim($data['category']),
-            ':start_date' => $data['start_date'],
-            ':expired_date' => $data['expired_date'],
-            ':point' => $point
+            ':r_name'         => $data['name'] ?? '',
+            ':r_category'     => $data['category'] ?? '',
+            ':r_percent'      => $data['percent'] ?? 0,
+            ':r_start_date'   => $data['start_date'] ?? '',
+            ':r_expired_date' => $data['expired_date'] ?? '',
+            ':r_point'        => $data['point'] ?? 0,
+            ':r_description'  => $data['description'] ?? ''
         ]);
+
         return true;
     } catch (PDOException $e) {
-        error_log("Database error in addReward: " . $e->getMessage());
+        error_log("Error adding reward: " . $e->getMessage());
         return false;
     }
 }
 
 /**
- * Update existing reward
+ * Update reward
  */
 function updateReward(PDO $pdo, int $id, array $data): bool
 {
-    if (!isset($data['name'], $data['category'], $data['start_date'], $data['expired_date'], $data['point'])) {
-        return false;
-    }
-
     $point = filter_var($data['point'], FILTER_VALIDATE_INT);
-    if ($point === false || $point < 0) {
-        return false;
-    }
+    $percent = isset($data['percent']) ? (float) $data['percent'] : 0;
+    $description = $data['description'] ?? '';
 
     try {
         $stmt = $pdo->prepare("
             UPDATE rewards
             SET r_name = :name,
                 r_category = :category,
+                r_percent = :percent,
                 r_start_date = :start_date,
                 r_expired_date = :expired_date,
-                r_point = :point
+                r_point = :point,
+                r_description = :description
             WHERE r_id = :id
         ");
-        $stmt->execute([
+        return $stmt->execute([
             ':name' => trim($data['name']),
             ':category' => trim($data['category']),
+            ':percent' => $percent,
             ':start_date' => $data['start_date'],
             ':expired_date' => $data['expired_date'],
             ':point' => $point,
+            ':description' => trim($description),
             ':id' => $id
         ]);
-        return true;
     } catch (PDOException $e) {
-        error_log("Database error in updateReward: " . $e->getMessage());
+        error_log("updateReward error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Delete reward
+ */
+function deleteReward(PDO $pdo, int $id): bool
+{
+    try {
+        $stmt = $pdo->prepare("DELETE FROM rewards WHERE r_id = :id");
+        return $stmt->execute([':id' => $id]);
+    } catch (PDOException $e) {
+        error_log("deleteReward error: " . $e->getMessage());
         return false;
     }
 }

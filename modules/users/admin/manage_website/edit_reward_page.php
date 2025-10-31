@@ -3,24 +3,21 @@ require_once __DIR__ . '/../../../../includes/dbconnect.php';
 require_once __DIR__ . '/../../../../includes/reward_func.inc.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Only read POST data when form is submitted
     $data = [
-        'name'        => $_POST['name'] ?? '',
-        'category'    => $_POST['category'] ?? '',
-        'start_date'  => $_POST['start_date'] ?? '',
-        'expired_date' => $_POST['expired_date'] ?? '',
-        'point'       => (int) ($_POST['point'] ?? 0)
+        'name'          => $_POST['name'] ?? '',
+        'category'      => $_POST['category'] ?? '',
+        'percent'     => $_POST['percent'] ?? 0,
+        'start_date'    => $_POST['start_date'] ?? '',
+        'expired_date'  => $_POST['expired_date'] ?? '',
+        'point'         => (int)($_POST['point'] ?? 0),
+        'description' => $_POST['description'] ?? ''
     ];
 
     $result = addReward($pdo, $data);
-
-    if ($result) {
-        echo "";
-    } else {
-        echo "";
-    }
+    echo $result ? "" : "";
 }
 ?>
+
 
 
 
@@ -88,11 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="form-row">
                         <label for="percent">Percent</label>
-                        <select id="percent" name="percent">
-                            <option>5%</option>
-                            <option>10%</option>
-                            <option>15%</option>
-                            <option>20%</option>
+                        <select id="percent" type="text" name="percent">
+                            <option value=0>0%</option>
+                            <option value=5>5%</option>
+                            <option value=10>10%</option>
+                            <option value=15>15%</option>
+                            <option value=20>20%</option>
                         </select>
                     </div>
 
@@ -107,8 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="textarea-group">
-                        <label for="menu-description">Description</label>
-                        <textarea id="menu-description" rows="3"></textarea>
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="3"></textarea>
                     </div>
 
                     <button class="save-btn" type="submit">save</button>

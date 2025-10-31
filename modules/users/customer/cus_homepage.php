@@ -29,11 +29,15 @@ include "../../../includes/dbconnect.php";
 
     <div class="offer">
         <div class="offer-container">
-            <div class="offer-details">
-                <h2>We Offer</h2>
-                <p>Blueberry Cheesecake</p>
-            </div>
-            <img src="/assets/img/blue_cheesecake.jpeg" alt="Blueberry Cheesecake">
+            <?php if ($menu): ?>
+                <div class="offer-details">
+                    <h2><?= htmlspecialchars($menu['m_name']) ?></h2>
+                    <p>₱<?= htmlspecialchars($menu['m_price']) ?> — <?= htmlspecialchars($menu['m_category']) ?></p>
+                </div>
+                <img src="/customer/uploads/<?= htmlspecialchars($menu['image']) ?>" alt="<?= htmlspecialchars($menu['m_name']) ?>">
+            <?php else: ?>
+                <p>No featured menu available.</p>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -42,12 +46,18 @@ include "../../../includes/dbconnect.php";
             <img src="/assets/img/voucher.png" alt="Reward Image">
             <div class="reward-details">
                 <h2>Rewards</h2>
-                <p>Earn exciting rewards like discounts and free items by collecting points and stamps.</p>
                 <div class="reward-items">
-                    <div class="reward-item">
-                        <h3>10% Discount</h3>
-                        <p>Earn points and redeem exciting discounts on your favorite items.</p>
-                    </div>
+                    <?php if ($rewards): ?>
+                        <?php foreach ($rewards as $r): ?>
+                            <div class="reward-item">
+                                <h3><?= htmlspecialchars($r['r_name']) ?></h3>
+                                <p><?= htmlspecialchars($r['r_description']) ?></p>
+                                <small>Earn <?= htmlspecialchars($r['r_point']) ?> pts — <?= htmlspecialchars($r['r_percent']) ?>%</small>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No rewards available at the moment.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
