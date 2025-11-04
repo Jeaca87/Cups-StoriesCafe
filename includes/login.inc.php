@@ -1,96 +1,101 @@
 <?php
 session_start();
-require_once 'dbconnect.php'; // adjust path if needed
+require_once 'dbconnect.php'; // make sure $pdo is defined here
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
+// ✅ Ensure POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: ../index.php");
+    exit;
+}
 
-    // ... existing code ...
+// ✅ CSRF validation
+if (
+    !isset($_POST['csrf_token']) ||
+    !isset($_SESSION['csrf_token']) ||
+    $_POST['csrf_token'] !== $_SESSION['csrf_token']
+) {
+    $_SESSION['errorMessage'] = "Invalid CSRF token.";
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    header("Location: ../index.php");
+    exit;
+}
 
-    try {
-        // 1. Try to find user in pos_users (admin or cashier)
-        $stmt = $pdo->prepare("SELECT * FROM pos_users WHERE email = ? LIMIT 1");
-        $stmt->execute([$email]);
-        $staff = $stmt->fetch(PDO::FETCH_ASSOC);
+// ✅ Clean inputs
+$email = trim(strtolower($_POST['email']));
+$password = trim($_POST['password']);
+unset($_SESSION['csrf_token']); // one-time use
 
-        // DEBUG: Add this temporarily
-        error_log("Email: $email");
-        error_log("Staff found: " . ($staff ? 'Yes' : 'No'));
-        if ($staff) {
-            error_log("Stored hash: " . $staff['password']);
-            error_log("Password verify: " . (password_verify($password, $staff['password']) ? 'True' : 'False'));
-        }
+try {
+    // ✅ Check unified users table
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($staff && password_verify($password, $staff['password'])) {
-            // ... rest of the code ...
-        }
-
-        // ... rest of the code ...
-    } catch (PDOException $e) {
-        // ... existing catch ...
-    }
-
-    // ✅ Basic validation
-    if (empty($email) || empty($password)) {
-        $_SESSION['error'] = "Please fill in all fields.";
+    if (!$user) {
+        $_SESSION['errorMessage'] = "Invalid email or password.";
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         header("Location: ../index.php");
         exit;
     }
 
-    // Optional: Validate email format for better security
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['error'] = "Please enter a valid email address.";
+    // ✅ Verify password
+    if (!password_verify($password, $user['password'])) {
+        $_SESSION['errorMessage'] = "Invalid email or password.";
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         header("Location: ../index.php");
         exit;
     }
 
-    try {
-        // 1. Try to find user in pos_users (admin or cashier)
-        $stmt = $pdo->prepare("SELECT * FROM pos_users WHERE email = ? LIMIT 1");
-        $stmt->execute([$email]);
-        $staff = $stmt->fetch(PDO::FETCH_ASSOC);
+    // ✅ Fetch full details from corresponding table
+    $details = null;
+    if ($user['user_type'] === 'pos') {
+        $stmt = $pdo->prepare("SELECT * FROM pos_users WHERE pos_id = ?");
+        $stmt->execute([$user['u_id']]);
+        $details = $stmt->fetch(PDO::FETCH_ASSOC);
+    } elseif ($user['user_type'] === 'customer') {
+        $stmt = $pdo->prepare("SELECT * FROM customer WHERE c_id = ?");
+        $stmt->execute([$user['u_id']]);
+        $details = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-        if ($staff && password_verify($password, $staff['password'])) {
-            $_SESSION['id'] = $staff['id'];
-            $_SESSION['fname'] = $staff['firstname'];
-            $_SESSION['lname'] = $staff['lastname'];
-            $_SESSION['role'] = $staff['role'];
-
-            // 🔀 Redirect based on role
-            if ($staff['role'] === 'admin') {
-                header("Location: ../../modules/users/admin/dashboard.php");
-            } else {
-                header("Location: ../../modules/users/cashier/cashier_dashboard.php");
-            }
-            exit;
-        }
-
-        // 2. If not found, check in customers table
-        $stmt = $pdo->prepare("SELECT * FROM customer WHERE c_email = ? LIMIT 1");
-        $stmt->execute([$email]);
-        $customer = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($customer && password_verify($password, $customer['password'])) {
-            $_SESSION['c_id'] = $customer['id'];
-            $_SESSION['c_fname'] = $customer['firstname'];
-            $_SESSION['c_lname'] = $customer['lastname'];
-
-            header("Location: ../../modules/users/customer/cus_homepage.php");
-            exit;
-        }
-
-        // Invalid login
-        $_SESSION['error'] = "Invalid email or password.";
-        header("Location: ../index.php");
-        exit;
-    } catch (PDOException $e) {
-        error_log("Login error: " . $e->getMessage());
-        $_SESSION['error'] = "Something went wrong. Please try again.";
+    if (!$details) {
+        $_SESSION['errorMessage'] = "User record missing.";
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         header("Location: ../index.php");
         exit;
     }
-} else {
+
+    // ✅ Success — setup session
+    session_regenerate_id(true);
+    $_SESSION['loggedin'] = true;
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['u_id'] = $user['u_id'];
+    $_SESSION['user_type'] = $user['user_type'];
+    $_SESSION['role'] = $user['role'];
+    $_SESSION['email'] = $user['email'];
+    $_SESSION['name'] = $details['pos_fname'] ?? $details['c_fname'] ?? 'User';
+
+    // ✅ Redirect by role
+    switch ($user['role']) {
+        case 'admin':
+            header("Location: ../modules/admin_module/dashboard.php");
+            break;
+        case 'cashier':
+            header("Location: ../modules/cashier_module/cashier_dashboard.php");
+            break;
+        case 'customer':
+            header("Location: ../modules/customer_module/cus_homepage.php");
+            break;
+        default:
+            $_SESSION['errorMessage'] = "Unknown user role.";
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            header("Location: ../index.php");
+            break;
+    }
+    exit;
+} catch (PDOException $e) {
+    $_SESSION['errorMessage'] = "Database error: " . $e->getMessage();
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     header("Location: ../index.php");
     exit;
 }

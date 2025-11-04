@@ -1,20 +1,12 @@
 <?php
 session_start();
-require_once 'includes/dbconnect.php';
 
-// ✅ Generate CSRF token before rendering the form
+// ✅ Generate CSRF token once per session
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-$csrf_token = $_SESSION['csrf_token'];
-
-// ✅ Optional: handle error/success messages passed via session
-$errors = $_SESSION['form_errors'] ?? [];
-$success = $_SESSION['form_success'] ?? false;
-
-// Clear session messages para hindi mag-persist
-unset($_SESSION['form_errors'], $_SESSION['form_success']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,21 +22,15 @@ unset($_SESSION['form_errors'], $_SESSION['form_success']);
         <img src="/assets/img/logoName.png" alt="Cups & Stories Logo" class="logo">
         <h1>Sign Up</h1>
 
-        <!-- ✅ Show success/error feedback -->
-        <?php if (!empty($errors)): ?>
-            <div class="alert error">
-                <ul>
-                    <?php foreach ($errors as $err): ?>
-                        <li><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php elseif ($success):
-            header("Location: index.php");
-        ?>
+        <?php if (isset($_SESSION['errorMessage'])): ?>
+            <p style="color:red;"><?php echo $_SESSION['errorMessage'];
+                                    unset($_SESSION['errorMessage']); ?></p>
         <?php endif; ?>
 
         <form method="POST" action="includes/cus_signup.inc.php" novalidate>
+            <!-- ✅ CSRF TOKEN -->
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
             <div>
                 <label for="c_fname">First name:</label>
                 <input type="text" id="c_fname" name="c_fname" placeholder="Enter your first name" required>
@@ -65,9 +51,6 @@ unset($_SESSION['form_errors'], $_SESSION['form_success']);
                 <label for="c_pass2">Confirm Password:</label>
                 <input type="password" id="c_pass2" name="c_pass2" placeholder="Confirm your password" required minlength="8">
             </div>
-
-            <!-- ✅ CSRF token -->
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8') ?>">
 
             <div class="button-group">
                 <button type="submit">Sign Up</button>
