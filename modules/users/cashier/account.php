@@ -14,7 +14,15 @@
             <h3>Cashier</h3>
         </nav>
     </div>
-    <div></div>
+    <div>
+        <form action="../../../includes//upload0.inc.php" method="POST" enctype="multipart/form-data">
+            <input type="file" name="fileupload" required>
+            <input type="hidden" name="source_table" value="cus_image">
+            <input type="hidden" name="source_id" value="5">
+            <button type="submit">Upload Image</button>
+        </form>
+
+    </div>
 </body>
 
 </html>

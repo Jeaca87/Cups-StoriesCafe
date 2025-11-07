@@ -12,7 +12,7 @@ $page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
         </div>
         <ul>
             <!-- yung laman ng $page ay kung saang link mapupunta -->
-            <li class="nav-link <?php echo ($page == 'dashnoard.php') ? 'active' : ''; ?>">
+            <li class="nav-link <?php echo ($page == 'dashboard.php') ? 'active' : ''; ?>">
                 <a href="../admin/dashboard.php">
                     <span class="material-symbols-rounded" img alt="Dashboard">dashboard</span>
                     Dashboard
@@ -21,13 +21,7 @@ $page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
             <li class="nav-link <?php echo ($page == 'edit_home_page.php') ? 'active' : ''; ?>">
                 <a href="../admin/manage_website/edit_home_page.php">
                     <span class="material-symbols-rounded" img alt="Edit Home">edit</span>
-                    Manage Home
-                </a>
-            </li>
-            <li class="nav-link <?php echo ($page == 'edit_menu_page.php') ? 'active' : ''; ?>">
-                <a href="../admin/manage_website/edit_menu_page.php">
-                    <span class="material-symbols-rounded" img alt="Edit Home">edit</span>
-                    Manage Menu
+                    Manage Home/Menu
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'edit_reward_page.php') ? 'active' : ''; ?>">

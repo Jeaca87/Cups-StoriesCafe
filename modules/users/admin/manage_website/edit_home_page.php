@@ -27,44 +27,84 @@
 
             <h2>Edit Home Page</h2>
             <section>
-                <div class="row">
+                <form class="row" action="../../../../includes/upload0.inc.php" method="POST" enctype="multipart/form-data">
                     <label for="cover-photo">Cover Photo</label>
-                    <input type="file" name="fileupload">
-                    <button type="submit" class="image-btn" name="submit">image</button>
-                    <img src="">
-                </div>
+                    <input type="file" name="fileupload" required>
+                    <input type="hidden" name="source_table" value="homepage_cover">
+                    <input type="hidden" name="source_id" value="5">
+                    <button type="submit" class="image-btn">save</button>
+                </form>
 
-                <div>
-                    <label for="cover-text">Cover Text</label>
-                    <div class="row" style="gap: 1rem;">
-                        <input id="cover-text" type="text" />
-                        <button type="button" class="image-btn">save</button>
-                    </div>
-                </div>
+                <form class="row" action="../../../../includes/manage_web_inc/manage_text.inc.php" method="POST">
+                    <label for="content">Cover Text</label>
+                    <input type="text" name="content" required>
 
-                <div class="row">
-                    <label for="menu-teaser">Menu Teaser</label>
-                    <input type="file" name="fileupload" id="fileupload">
-                    <button type="submit" value="Upload Image" class="image-btn" name="save">save</button>
-                </div>
+                    <input type="hidden" name="page" value="homepage_cover">
+                    <input type="hidden" name="section" value="homepage_text">
 
-                <div class="textarea-group">
-                    <label for="menu-description">Description</label>
-                    <textarea id="menu-description" rows="3"></textarea>
-                </div>
+                    <button type="submit" name="submit" class="image-btn">save</button>
+                </form>
 
-                <div class="row">
-                    <label for="reward-teaser">Reward Teaser</label>
-                    <input type="file" name="fileupload" id="fileupload">
-                    <button type="submit" value="Upload Image" class="image-btn" name="save">save</button>
-                </div>
 
-                <div class="textarea-group">
-                    <label for="reward-description">Description</label>
-                    <textarea id="reward-description" rows="3"></textarea>
-                </div>
 
-                <button type="button" class="save-btn">save</button>
+
+                <form class="row" action="../../../../includes/upload0.inc.php" method="POST" enctype="multipart/form-data">
+                    <label for="cover-photo">Menu Teaser</label>
+                    <input type="file" name="fileupload" required>
+                    <input type="hidden" name="source_table" value="menu_teaser">
+                    <input type="hidden" name="source_id" value="5">
+                    <button type="submit" class="image-btn">save</button>
+                </form>
+
+                <form class="textarea-group" action="../../../../includes/manage_web_inc/manage_text.inc.php" method="POST">
+                    <label for="content">Description</label>
+                    <input type="text" name="content" required>
+
+                    <input type="hidden" name="page" value="menu_teaser">
+                    <input type="hidden" name="section" value="menu_description">
+
+                    <button type="submit" name="submit" class="image-btn">save</button>
+                </form>
+
+                <form class="row" action="../../../../includes/upload0.inc.php" method="POST" enctype="multipart/form-data">
+                    <label for="cover-photo">Reward Teaser</label>
+                    <input type="file" name="fileupload" required>
+                    <input type="hidden" name="source_table" value="reward_teaser">
+                    <input type="hidden" name="source_id" value="5">
+                    <button type="submit" class="image-btn">save</button>
+                </form>
+
+                <form class="textarea-group" action="../../../../includes/manage_web_inc/manage_text.inc.php" method="POST">
+                    <label for="content">Description</label>
+                    <input type="text" name="content" required>
+
+                    <input type="hidden" name="page" value="reward_teaser">
+                    <input type="hidden" name="section" value="reward_description">
+
+                    <button type="submit" name="submit" class="image-btn">save</button>
+                </form>
+            </section>
+
+            <h2>Edit Menu Page</h2>
+            <section>
+                <form action="../../../../includes/upload0.inc.php " method="POST" enctype="multipart/form-data">
+                    <label for="cover-photo">Cover Photo</label>
+                    <input type="file" name="fileupload" required>
+                    <input type="hidden" name="source_table" value="menupage_cover">
+                    <input type="hidden" name="source_id" value="5">
+                    <button type="submit" class="image-btn">save</button>
+                </form>
+
+                <form class="row" action="../../../../includes/manage_web_inc/manage_text.inc.php" method="POST">
+                    <label for="content">Cover Text</label>
+                    <input type="text" name="content" required>
+
+                    <input type="hidden" name="page" value="menupage_cover">
+                    <input type="hidden" name="section" value="menu_text">
+
+                    <button type="submit" name="submit" class="image-btn">save</button>
+                </form>
+
             </section>
         </main>
     </div>
