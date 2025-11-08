@@ -1,3 +1,11 @@
+<?php
+include "../../../includes/dbconnect.php";
+
+// Fetch all customers
+$stmt = $pdo->query("SELECT c_id, c_fname, c_lname, c_tier, c_email FROM customer ORDER BY c_id DESC");
+$members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,20 +27,24 @@
                 <th>Others</th>
                 </t>
 
-                <?php foreach ($menus as $menu): ?>
+                <?php if ($members): ?>
+                    <?php foreach ($members as $m): ?>
             <tr>
-                <td><img src="uploads/<?= htmlspecialchars($menu['image']) ?>" width="80"></td>
-                <td><?= htmlspecialchars($menu['m_id']) ?></td>
-                <td><?= htmlspecialchars($menu['m_name']) ?></td>
-                <td><?= htmlspecialchars($menu['m_category']) ?></td>
-                <td><?= htmlspecialchars($menu['m_tempe']) ?></td>
-                <td>₱<?= htmlspecialchars($menu['m_price']) ?></td>
+                <td><?= htmlspecialchars($m['c_id']) ?></td>
+                <td><?= htmlspecialchars($m['c_fname'] . ' ' . $m['c_lname']) ?></td>
+                <td><?= htmlspecialchars($m['c_tier']) ?></td>
+                <td><?= htmlspecialchars($m['c_email']) ?></td>
                 <td>
-                    <a href="../menu/update_menu.php?id=<?= $menu['m_id'] ?>">Edit</a> |
-                    <a href="../../../includes/menu_inc/delete_menu.inc.php?id=<?= $menu['m_id'] ?>" onclick="return confirm('Delete this item?')">Delete</a>
+                    <a href="view_member.php?id=<?= $m['c_id'] ?>">View Info</a> |
+                    <a href="../../../includes/delete_member.inc.php ?id=<?= $m['c_id'] ?>" onclick="return confirm('Are you sure you want to delete this member?');">Delete</a>
                 </td>
             </tr>
         <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="5">No members found.</td>
+        </tr>
+    <?php endif; ?>
         </table>
     </div>
 </body>
