@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($_SESSION['user_type'] == 'admin') {
                 header("Location: ../modules/users/admin/dashboard.php");
             } else {
-                header("Location: ../modules/users/cashier/dashboard.php");
+                header("Location: ../modules/users/cashier/cashier_dashboard.php");
             }
             exit();
         }
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_email'] = $customer['email'];
             $_SESSION['user_type'] = 'customer';
 
-            header("Location: ../cus_homepage.php");
+            header("Location: ../modules/users/customer/cus_homepage.php");
             exit();
         }
 
