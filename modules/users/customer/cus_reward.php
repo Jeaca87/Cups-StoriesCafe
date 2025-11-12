@@ -29,12 +29,12 @@ $history = $historyStmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="navbar">
     <img src="/assets/img/c&sLogo.png" alt="Cups & Stories Logo" class="logo">
     <div class="nav-right">
-      <a href="/customer/cus_homepage.php">Home</a>
-      <a href="/customer/cus_menu.php">Menu</a>
-      <a href="/customer/cus_reward.php">Rewards</a>
+      <a href="cus_homepage.php">Home</a>
+      <a href="cus_menu.php">Menu</a>
+      <a href="cus_reward.php">Rewards</a>
       <div class="search-bar">
         <input type="text" placeholder="Search...">
-        <a href="/customer/cus_account.php"><img src="/assets/img/profile.png" alt="Profile" class="profile-img"></a>
+        <a href="cus_account.php"><img src="/assets/img/profile.png" alt="Profile" class="profile-img"></a>
       </div>
     </div>
   </div>

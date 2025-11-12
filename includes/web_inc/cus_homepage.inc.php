@@ -1,5 +1,5 @@
 <?php
-include "../dbconnect.php"; // adjust the path if needed
+include __DIR__ . "/../dbconnect.php"; // adjust the path if needed
 
 // Fetch latest menu item
 $menuStmt = $pdo->prepare("SELECT * FROM menu ORDER BY date_created DESC LIMIT 1");
