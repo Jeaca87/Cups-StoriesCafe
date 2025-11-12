@@ -22,11 +22,17 @@
         <button type="submit">Upload Image</button>
     </form>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" />
-        <button type="submit" name="submit">save</button>
-    </div>
+    <form action="staff_password.inc.php" method="POST">
+        <!-- Hidden user ID (pwede rin galing sa session sa backend) -->
+        <input type="hidden" name="pos_id" value="1">
+
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" required />
+            <button type="submit" name="submit">Save</button>
+        </div>
+    </form>
+
 
     <div>
         <label>Switch Branch</label>

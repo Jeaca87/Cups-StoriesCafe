@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION["role"] !== "admin") {
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] != 'customer') {
     header("Location: ../../../index.php");
-    exit;
+    exit();
 }
 ?>
 
