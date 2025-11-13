@@ -61,7 +61,7 @@ $page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
                 </a>
             </li>
             <li class="nav-link <?php echo ($page == 'account.php') ? 'active' : ''; ?>">
-                <a href="../admin/account.php">
+                <a href="account.php">
                     <span class="material-symbols-rounded" img alt="Account">account_circle</span>
                     Account
                 </a>

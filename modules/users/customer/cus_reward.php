@@ -34,7 +34,7 @@ $history = $historyStmt->fetchAll(PDO::FETCH_ASSOC);
       <a href="cus_reward.php">Rewards</a>
       <div class="search-bar">
         <input type="text" placeholder="Search...">
-        <a href="cus_account.php"><img src="/assets/img/profile.png" alt="Profile" class="profile-img"></a>
+        <a href="cus_info/cus_edit_info.php"><img src="/assets/img/profile.png" alt="Profile" class="profile-img"></a>
       </div>
     </div>
   </div>

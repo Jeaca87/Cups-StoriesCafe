@@ -22,16 +22,10 @@
         <button type="submit">Upload Image</button>
     </form>
 
-    <form action="staff_password.inc.php" method="POST">
-        <!-- Hidden user ID (pwede rin galing sa session sa backend) -->
-        <input type="hidden" name="pos_id" value="1">
+    <button onclick="window.location.href='../../../change_password.php'">
+        Change Password
+    </button>
 
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password" required />
-            <button type="submit" name="submit">Save</button>
-        </div>
-    </form>
 
 
     <div>

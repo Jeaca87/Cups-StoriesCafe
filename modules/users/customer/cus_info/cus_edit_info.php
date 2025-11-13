@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../../../includes/dbconnect.php";
+include __DIR__ . "/../../../../includes/dbconnect.php";
 
 if (!isset($_SESSION['c_id'])) {
     header("Location: ../../../index.php");
